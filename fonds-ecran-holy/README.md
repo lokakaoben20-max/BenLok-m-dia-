@@ -25,7 +25,7 @@ Fonds d'écran gratuits, en pleine qualité, pour tous les téléphones. 💙
 <table><tr>
 <td align="center" width="33%"><img src="apercu/serie3-1-verre.jpg" width="200" alt="Verre"><br><b>Verre</b><br><a href="hd/serie3-1-verre.png?raw=true">⬇ Télécharger en HD</a></td>
 <td align="center" width="33%"><img src="apercu/serie3-2-aube.jpg" width="200" alt="Aube"><br><b>Aube</b><br><a href="hd/serie3-2-aube.png?raw=true">⬇ Télécharger en HD</a></td>
-<td align="center" width="33%"><img src="apercu/serie3-3-minimal.jpg" width="200" alt="Minimal"><br><b>Minimal</b><br><a href="hd/serie3-3-minimal.png?raw=true">⬇ Télécharger en HD</a></td>
+<td align="center" width="33%"><img src="apercu/serie3-3-repos.jpg" width="200" alt="Repos"><br><b>Repos</b><br><a href="hd/serie3-3-repos.png?raw=true">⬇ Télécharger en HD</a></td>
 </tr></table>
 
 ## Série Lumière
