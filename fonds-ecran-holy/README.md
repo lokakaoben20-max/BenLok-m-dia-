@@ -33,7 +33,7 @@ Fonds d'écran gratuits, en pleine qualité, pour tous les téléphones. 💙
 <table><tr>
 <td align="center" width="33%"><img src="apercu/serie4-1-vitres.jpg" width="200" alt="Vitres"><br><b>Vitres</b><br><a href="hd/serie4-1-vitres.png?raw=true">⬇ Télécharger en HD</a></td>
 <td align="center" width="33%"><img src="apercu/serie4-2-lumiere.jpg" width="200" alt="Lumière"><br><b>Lumière</b><br><a href="hd/serie4-2-lumiere.png?raw=true">⬇ Télécharger en HD</a></td>
-<td align="center" width="33%"><img src="apercu/serie4-3-prisme.jpg" width="200" alt="Prisme"><br><b>Prisme</b><br><a href="hd/serie4-3-prisme.png?raw=true">⬇ Télécharger en HD</a></td>
+<td align="center" width="33%"><img src="apercu/serie4-3-paix.jpg" width="200" alt="Paix"><br><b>Paix</b><br><a href="hd/serie4-3-paix.png?raw=true">⬇ Télécharger en HD</a></td>
 </tr></table>
 
 ---
