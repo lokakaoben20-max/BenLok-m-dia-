@@ -1,0 +1,112 @@
+<html><head><style>body{margin:0;background:#0d1116;width:1920px;height:1080px;overflow:hidden;position:relative}
+.v{position:absolute;left:260px;width:1400px;text-align:center;color:#e9e9ea;font:300 60px/1.35 Inter}
+.v i{font-family:'DejaVu Serif';font-style:italic;color:#18cfec}
+.en{position:absolute;left:260px;width:1400px;text-align:center;color:#9aa0a6;font:300 38px/1.35 Inter;font-style:italic}
+.ref{position:absolute;left:0;width:1920px;text-align:center;color:#18cfec;font:500 28px 'JetBrains Mono';letter-spacing:6px}
+.sig{position:absolute;left:0;width:1920px;top:960px;text-align:center;color:#9aa0a6;font:400 30px 'JetBrains Mono'}
+</style></head><body><script src="pic.js"></script><script src="poses.js"></script><div id=root></div><script>
+const S=0.46,FOOT=(276+31)*S,G=860;let GID=0;
+function cl(x,a=0,b=1){return Math.max(a,Math.min(b,x));}
+function k(t,a,b){return cl((t-a)/(b-a));}
+function E(t,a,b){return ease(k(t,a,b));}
+function glow(x,y,r,c,o){const id='g'+(GID++);return `<radialGradient id="${id}"><stop offset="0" stop-color="${c}" stop-opacity="${o}"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient><circle cx="${x}" cy="${y}" r="${r}" fill="url(#${id})"/>`;}
+function sack(x,y,w,rot=0,lab=''){const h=w*0.95;const fs=Math.min(w*0.24,1.08*w/Math.max(3,lab.length));return `<g transform="translate(${x},${y}) rotate(${rot})"><path d="M${-w*0.18} ${-h} Q${-w*0.62} ${-h*0.55} ${-w*0.5} ${-h*0.1} Q${-w*0.45} 0 0 0 Q${w*0.45} 0 ${w*0.5} ${-h*0.1} Q${w*0.62} ${-h*0.55} ${w*0.18} ${-h} Z" fill="#fff" stroke="#0d1116" stroke-width="6"/><path d="M${-w*0.24} ${-h} L${w*0.24} ${-h}" stroke="#fff" stroke-width="${w*0.12}" stroke-linecap="round"/><path d="M${-w*0.22} ${-h*0.98} L${w*0.22} ${-h*0.98}" stroke="#0d1116" stroke-width="4"/>LABEL</g>`.replace('LABEL',lab?`<text x="0" y="${-h*0.36}" text-anchor="middle" font-family="Inter" font-weight="800" font-size="${fs}" fill="#0d1116" dominant-baseline="middle">${lab}</text>`:'');}
+const Q={
+ carry:{t:0.72,h:0.3,ua1:-0.5,fa1:-1.7,ua2:-0.6,fa2:-1.9,th1:0.14,sh1:-0.04,th2:-0.12,sh2:-0.06},
+ stumble:{t:1.05,h:0.5,ua1:0.9,fa1:0.7,ua2:0.6,fa2:0.4,th1:0.55,sh1:0.05,th2:-0.45,sh2:-0.25},
+ look2:{t:0.45,h:-0.6,ua1:-0.5,fa1:-1.7,ua2:-0.6,fa2:-1.9,th1:0.1,sh1:0,th2:-0.1,sh2:0},
+ jtilt2:{t:0.05,h:0.45,ua1:1.2,fa1:1.5,ua2:0.2,fa2:0.3},
+ jpoint:{t:0.0,h:-0.2,ua1:2.0,fa1:2.4,ua2:1.6,fa2:1.9},
+ offer:{t:0.08,h:0.05,ua1:1.2,fa1:1.5,ua2:0.2,fa2:0.3},
+ look:{t:0.6,h:0.0,ua1:-0.5,fa1:-1.7,ua2:-0.6,fa2:-1.9,th1:0.12,sh1:0,th2:-0.1,sh2:0},
+ give:{t:0.6,h:0.1,ua1:1.3,fa1:1.4,ua2:-0.6,fa2:-1.9,th1:0.12,sh1:0,th2:-0.1,sh2:0},
+ jstand:{t:0.03,h:0.05,ua1:0.25,fa1:0.15,ua2:0.1,fa2:0.1},
+ jhold:{t:0.05,h:0.2,ua1:1.0,fa1:1.9,ua2:0.2,fa2:0.3},
+ jtilt:{t:0.05,h:0.45,ua1:1.0,fa1:1.9,ua2:0.2,fa2:0.3},
+ jcatch:{t:0.1,h:0.1,ua1:1.35,fa1:2.2,ua2:1.25,fa2:2.1},
+ jshoulder:{t:0.05,h:0.1,ua1:1.6,fa1:1.7,ua2:0.2,fa2:0.3},
+ throw:{t:-0.15,h:-0.2,ua1:2.6,fa1:2.4,ua2:2.4,fa2:2.3,th1:0.18,sh1:0,th2:-0.18,sh2:0},
+};
+const BAGS=[[0,0,150,'STRESS'],[-10,-136,142,'DETTES'],[12,-264,134,'PEUR'],[-8,-385,126,'ÉCHECS'],[6,-498,118,'PASSÉ'],[0,-600,56,'']]; // dx,dy,w (stack, top = smallest)
+window.draw=function(t){GID=0;let g='',html='';
+ const ENDT=22;
+ if(t>=ENDT){const lt=t-ENDT;const a=E(lt,0.2,0.9),b=E(lt,0.9,1.6),c=E(lt,1.4,1.9);
+   html+=`<div class=v style="top:${300-16*(1-a)}px;opacity:${a}">« Déchargez-vous sur lui de tous vos soucis, car lui-même prend <i>soin</i> de vous. »</div>`;
+   html+=`<div class=en style="top:520px;opacity:${b}">Casting all your care upon Him, for He cares for you.</div>`;
+   html+=`<div class=ref style="top:630px;opacity:${c}">1 PIERRE 5:7 · 1 PETER 5:7</div>`;
+   html+=`<div class=sig style="opacity:${c}"><span style="display:inline-block;width:24px;height:24px;border-radius:50%;background:#18cfec;vertical-align:-3px;margin-right:14px"></span>Holyforchrist</div>`;
+   document.getElementById('root').innerHTML=html;return;}
+ g+=`<line x1="-2000" y1="${G}" x2="4000" y2="${G}" stroke="#2a323c" stroke-width="5"/>`;
+ const JX=1300, ARR=1050;
+ // ---- Moi position & pose
+ let mx; if(t<4)mx=lerp(300,430,t/4); else if(t<5.5)mx=lerp(430,480,(t-4)/1.5); else mx=lerp(480,ARR,E(t,5.5,9.6)*0.35+k(t,5.5,9.6)*0.65);
+ let mp=walk(Q.carry,t*4.2,0.32),dip=0;
+ // stumble 7.0-8.0
+ if(t>=7.0&&t<8.1){const q=Math.sin(k(t,7.0,8.1)*Math.PI);mp=lp(walk(Q.carry,t*4.2,0.32),Q.stumble,q);dip=q*22;}
+ if(t>=9.6)mp=Q.carry;
+ let top=0; if(t>=7.0&&t<8.6)top=Math.sin((t-7.0)*8)*0.16*(1-k(t,7.6,8.6));
+ // ask 1 -> handshake
+ const shake=(t>=10.6&&t<11.7)?Math.sin((t-10.6)*14)*0.13:0;
+ if(t>=9.9&&t<10.6)mp=lp(Q.carry,Q.look,E(t,9.9,10.3));
+ if(t>=10.6&&t<11.8){mp={...lp(Q.look,Q.give,E(t,10.6,10.85))};mp.ua1+=shake;}
+ if(t>=11.8&&t<12.4)mp=lp(Q.give,Q.carry,E(t,11.8,12.2));
+ // ask 2 -> tiny bag
+ if(t>=12.6&&t<13.7)mp=lp(Q.carry,Q.give,E(t,12.7,13.1));
+ if(t>=13.7&&t<15.6)mp=lp(Q.give,Q.carry,E(t,13.7,14.1));
+ // ask 3 -> understands, throws
+ if(t>=15.6&&t<16.4)mp=lp(Q.carry,Q.look2,E(t,15.6,15.9));
+ if(t>=16.4&&t<17.0)mp=lp(Q.look2,Q.throw,E(t,16.4,16.8));
+ const free=E(t,16.8,17.4);
+ if(t>=17.0)mp=lp(Q.throw,PO.stand,E(t,17.0,17.6));
+ let jump=0;if(t>18.6&&t<19.3)jump=Math.sin(k(t,18.6,19.3)*Math.PI)*55;
+ if(t>=18.5&&t<19.4)mp=lp(PO.stand,PO.win,E(t,18.5,18.8));if(t>=19.4)mp=lp(PO.win,PO.stand,E(t,19.4,19.8));
+ const M=fig(mx,G-FOOT-jump+dip,mp,{s:S,f:1});
+ // ---- Jesus
+ let jp=Q.jstand;
+ if(t>=9.6)jp=lp(Q.jstand,Q.offer,E(t,9.6,10.0));
+ if(t>=10.6&&t<11.8){jp={...Q.offer};jp.ua1+=shake;}
+ if(t>=11.8)jp=lp(Q.offer,Q.jtilt2,E(t,11.8,12.0));
+ if(t>=12.1)jp=lp(Q.jtilt2,Q.offer,E(t,12.1,12.5));
+ if(t>=13.2)jp=lp(Q.offer,Q.jhold,E(t,13.2,13.5));
+ if(t>=13.8&&t<14.8)jp=lp(Q.jhold,Q.jtilt,E(t,13.8,14.1));
+ if(t>=14.8)jp=lp(Q.jtilt,Q.jpoint,E(t,14.8,15.2));
+ if(t>=16.5)jp=lp(Q.jpoint,Q.jcatch,E(t,16.5,16.9));
+ if(t>=19.6)jp=lp(Q.jcatch,Q.jshoulder,E(t,19.6,20.1));
+ const J=fig(JX,G-FOOT*1.02,jp,{s:S*1.02,f:-1,robe:1});
+ const rel=E(t,17.0,17.8)*(1-k(t,20.5,21.5)*0.5);if(rel>0)g+=glow((ARR+JX)/2,G-200,lerp(0,420,rel),'#18cfec',0.32);
+ g+=J.svg;
+ // ---- bags
+ const back=[M.sh[0]-30,M.sh[1]-8];
+ let towerTop=0;
+ BAGS.forEach(([dx,dy,w,lab],i)=>{
+   const isTiny=i==BAGS.length-1;
+   let bx=back[0]+dx*0.7+Math.sin(t*3.0+i*0.4)*i*1.5+top*(-dy)*0.75, by=back[1]+dy*0.62, ww=w*0.62, rot=Math.sin(t*3.0)*i*0.8+top*45;
+   if(i==BAGS.length-2)towerTop=by-ww;
+   if(isTiny){const q=E(t,12.8,13.2),q2=E(t,13.2,13.6);
+     if(t>12.8){const hx=M.w1[0],hy=M.w1[1]+ww*0.9;bx=lerp(bx,hx,q);by=lerp(by,hy,q);rot=lerp(rot,0,q);}
+     if(t>13.2){bx=lerp(M.w1[0],J.w1[0],q2);by=lerp(M.w1[1]+ww*0.9,J.w1[1]+ww*0.9,q2);}
+     if(t>=13.6){bx=J.w1[0];by=J.w1[1]+ww*0.9;}
+     if(t>=14.8){const qd=E(t,14.8,15.2);bx=lerp(J.w1[0],JX+70,qd);by=lerp(J.w1[1]+ww*0.9,G,qd);}
+   } else if(free>0){const jx=(J.w1[0]+J.w2[0])/2,jy=J.w1[1]+30;const qq=E(t,16.8+i*0.04,17.4+i*0.04);bx=lerp(bx,jx,qq);by=lerp(by,jy-(i*14)*(1-qq*0.6),qq);rot=lerp(rot,0,qq);}
+   let op=1;if(t>18.0)op=1-k(t,18.0,19.0);
+   if(op>0){g+=`<g opacity="${op}">`+sack(bx,by,ww,rot,lab)+`</g>`;if(isTiny&&t<14.2)g+=`<text x="${bx}" y="${by-ww*1.5}" text-anchor="middle" font-family="Inter" font-weight="800" font-size="20" fill="#fff" opacity="${op*(1-k(t,13.7,14.2))}">PETIT SOUCI</text>`;}
+ });
+ g+=M.svg;
+ const lo=k(t,5.0,5.8)*(1-k(t,21.0,21.5));
+ g+=`<text x="${M.head[0]}" y="${t<16.8?Math.min(M.head[1]-70,towerTop-(t<12.8?115:60)):M.head[1]-70}" text-anchor="middle" font-family="Inter" font-weight="800" font-size="40" fill="#fff" opacity="${lo}">MOI</text>`;
+ g+=`<text x="${J.head[0]}" y="${J.head[1]-80}" text-anchor="middle" font-family="Inter" font-weight="800" font-size="40" fill="#fff" opacity="${lo}">JÉSUS</text>`;
+ if(t<16.4){for(let i=0;i<2;i++){const q=((t*1.4+i*0.5)%1);g+=`<path transform="translate(${M.head[0]+30+i*18},${M.head[1]-10+q*60}) scale(.8)" d="M0 -14 Q10 0 0 8 Q-10 0 0 -14 Z" fill="#18cfec" opacity="${1-q}"/>`;}}
+ const pop=(a,b,ch,x,y)=>{if(t>a&&t<b){const q=E(t,a,a+0.25)*(1-k(t,b-0.25,b));g+=`<text x="${x}" y="${y}" text-anchor="middle" fill="#18cfec" font-family="Inter" font-weight="800" font-size="${70*q}" opacity="${q}">${ch}</text>`;}};
+ pop(10.1,11.0,'?',M.head[0]+10,M.head[1]-60);
+ pop(15.7,16.5,'!',M.head[0]+10,M.head[1]-60);
+ if(t>13.8&&t<14.9){for(let i=0;i<3;i++){const on=t>13.8+i*0.25;g+=`<circle cx="${J.head[0]-30+i*30}" cy="${J.head[1]-130}" r="9" fill="#fff" opacity="${on?1:0}"/>`;}}
+ if(t>19.6){for(let i=0;i<5;i++){const q=((t-19.6)*0.7+i/5)%1;g+=`<path transform="translate(${(ARR+JX)/2+i*40-100},${G-330-q*160}) scale(.7)" d="M22 38 C-8 18 4 -6 22 8 C40 -6 52 18 22 38 Z" fill="#18cfec" opacity="${(1-q)*E(t,19.6,20)}"/>`;}}
+ // ---- camera
+ const close=1-E(t,4.0,5.5);
+ const fy=lerp(towerTop+40,M.head[1],E(t,0.3,3.8));
+ const sc=lerp(1,3.0,close), fx=lerp(960,back[0]+20,close), fyy=lerp(540,fy,close);
+ const fade=k(t,21.5,22);
+ const svg=`<g transform="translate(960,540) scale(${sc}) translate(${-fx},${-fyy})">${g}</g><rect x=0 y=0 width=1920 height=1080 fill="#0d1116" opacity="${fade}"/>`;
+ document.getElementById('root').innerHTML=`<svg width=1920 height=1080 style="position:absolute;top:0;left:0">${svg}</svg>`;};
+draw(+(location.hash.slice(1)||0));
+</script></body></html>
