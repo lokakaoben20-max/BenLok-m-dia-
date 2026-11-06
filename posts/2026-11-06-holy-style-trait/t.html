@@ -1,0 +1,11 @@
+<html><body style="margin:0;background:#0d1116"><svg width=1920 height=1080 id=s></svg><script src="sk.js"></script><script>
+let g=`<g>`;
+const G=900;
+g+=sk(260,G,{ex:'happy',ua1:1.5,fa1:1.55,t:0.05,pt:1},{tuft:1}).svg;
+g+=sk(640,G,{ex:'sad',t:0.12,h:0.2,ua1:0.1,fa1:0.05,ua2:-0.05,fa2:0},{tuft:1}).svg;
+g+=sk(1000,G,{ex:'wow',ua1:2.5,fa1:2.9,ua2:-2.5,fa2:-2.9,th1:0.25,sh1:0.05,th2:-0.25,sh2:-0.05},{tuft:1}).svg;
+g+=sk(1500,G,{ex:'calm',ua1:1.0,fa1:1.3,ua2:-1.0,fa2:-1.3,t:0},{robe:1,glow:1,f:-1}).svg;
+g+=`</g>`;
+const lab=(x,t)=>`<text x="${x}" y="1010" text-anchor="middle" font-family="Inter" font-weight="800" font-size="40" fill="#fff">${t}</text>`;
+g+=lab(260,'MOI')+lab(640,'MOI')+lab(1000,'MOI')+lab(1500,'JÉSUS');
+document.getElementById('s').innerHTML=g;</script></body></html>
