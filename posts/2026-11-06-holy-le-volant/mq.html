@@ -1,0 +1,39 @@
+<html><head><style>body{margin:0;background:#0d1116;width:1920px;height:1240px;font-family:Inter}
+.c{position:absolute;color:#9aa0a6;font:400 28px Inter;width:900px;text-align:center}</style></head><body><svg width=1920 height=1240 id=s></svg><div id=cap></div><script>
+const W='#fff',BG='#0d1116',B='#18cfec';
+function car(x,y,rot=0,smoke=0){let g=`<g transform="translate(${x},${y}) rotate(${rot})">`;
+ g+=`<path d="M-230 -20 L-230 -70 Q-225 -95 -190 -100 L-120 -105 L-70 -175 Q-60 -185 -40 -185 L110 -185 Q130 -185 145 -170 L200 -110 L240 -100 Q265 -92 265 -65 L265 -20 Z" fill="${W}"/>`;
+ g+=`<path d="M-55 -165 L-5 -165 L-5 -112 L-100 -112 Z" fill="${BG}"/><path d="M10 -165 L120 -165 Q130 -165 138 -155 L175 -112 L10 -112 Z" fill="${BG}"/>`;
+ for(const wx of [-140,170])g+=`<circle cx="${wx}" cy="-15" r="46" fill="${BG}"/><circle cx="${wx}" cy="-15" r="36" fill="${W}"/><circle cx="${wx}" cy="-15" r="12" fill="${BG}"/>`;
+ if(smoke)for(let i=0;i<4;i++)g+=`<circle cx="${230+i*22}" cy="${-130-i*40}" r="${22+i*9}" fill="#5a6270" opacity="${0.8-i*0.15}"/>`;
+ return g+'</g>';}
+function head(x,y,r=24,jesus=0){let g='';if(jesus)g+=`<ellipse cx="${x-9}" cy="${y+12}" rx="19" ry="30" fill="${W}"/>`;return g+`<circle cx="${x}" cy="${y}" r="${r}" fill="${W}"/>`;}
+function arm(a,b,c,d){return `<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="${BG}" stroke-width="24" stroke-linecap="round"/><line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="${W}" stroke-width="13" stroke-linecap="round"/>`;}
+function lab(x,y,t,s=30){return `<text x="${x}" y="${y}" text-anchor="middle" font-family="Inter" font-weight="800" font-size="${s}" fill="#fff">${t}</text>`;}
+function road(x0,y,w,wav=0){let d=`M${x0} ${y}`;for(let i=1;i<=40;i++){const xx=x0+w*i/40;d+=` L${xx} ${y+Math.sin(i*0.9)*wav}`;}return `<path d="${d}" stroke="#2a323c" stroke-width="6" fill="none"/>`;}
+let g='';
+// panel frames 900x520
+const P=[[40,40],[980,40],[40,640],[980,640]];
+P.forEach(([px,py])=>g+=`<rect x="${px}" y="${py}" width="900" height="520" rx="18" fill="#10151b" stroke="#222a33" stroke-width="3"/>`);
+// 1 confident
+{const [px,py]=P[0];g+=road(px+20,py+420,860);g+=`<g transform="translate(${px+450},${py+420}) scale(1.1)">${car(0,0)}</g>`;
+ g+=`<g transform="translate(${px+450},${py+420}) scale(1.1)">${head(-12,-138,22,1)}${head(70,-136,22)}<line x1="70" y1="-115" x2="115" y2="-120" stroke="${BG}" stroke-width="12" stroke-linecap="round"/><circle cx="120" cy="-122" r="14" fill="none" stroke="${BG}" stroke-width="6"/></g>`;
+ g+=lab(px+530,py+180,'MOI')+lab(px+430,py+180,'JÉSUS',26);
+ g+=`<rect x="${px+90}" y="${py+250}" width="10" height="170" fill="#444c57"/><rect x="${px+40}" y="${py+225}" width="110" height="46" rx="6" fill="#2a323c"/>`+`<text x="${px+95}" y="${py+256}" text-anchor="middle" font-size="22" font-weight="800" fill="#cfd3d8">MA VIE</text>`;}
+// 2 zigzag
+{const [px,py]=P[1];g+=road(px+20,py+430,860,18);g+=`<g transform="translate(${px+430},${py+400}) scale(1.05)">${car(0,0,-12)}<g transform="rotate(-12)">${head(-10,-138,22,1)}${head(72,-140,22)}${arm(62,-128,30,-205)}${arm(82,-128,125,-208)}</g></g>`;
+ for(let i=0;i<3;i++)g+=`<path d="M${px+120+i*60} ${py+445+i*6} q30 -20 60 0" stroke="#5a6270" stroke-width="5" fill="none"/>`;
+ g+=`<path d="M${px+760} ${py+430} l25 -60 l25 60 z" fill="#e8783a"/><path d="M${px+770} ${py+405} l30 0" stroke="#fff" stroke-width="6"/>`;
+ g+=`<text x="${px+560}" y="${py+170}" font-size="64" font-weight="800" fill="${B}" text-anchor="middle">?!</text>`;}
+// 3 stalled
+{const [px,py]=P[2];g+=road(px+20,py+420,860);g+=`<g transform="translate(${px+420},${py+420}) scale(1.1)">${car(0,0,0,1)}${head(-12,-138,22,1)}${head(95,-120,22)}<circle cx="125" cy="-125" r="14" fill="none" stroke="${BG}" stroke-width="6"/>${arm(5,-118,62,-130)}</g>`;
+ g+=`<circle cx="${px+420+110*1.1}" cy="${py+420-150*1.1}" r="7" fill="${B}"/><path d="M${px+560} ${py+250} q6 12 0 18 q-6 -6 0 -18z" fill="${B}"/>`;}
+// 4 Jesus drives
+{const [px,py]=P[3];g+=`<defs><radialGradient id="sun"><stop offset="0" stop-color="${B}" stop-opacity=".35"/><stop offset="1" stop-color="${B}" stop-opacity="0"/></radialGradient></defs><circle cx="${px+720}" cy="${py+300}" r="260" fill="url(#sun)"/>`;
+ g+=road(px+20,py+420,860);g+=`<g transform="translate(${px+430},${py+420}) scale(1.1)">${car(0,0)}${head(-14,-136,22)}${arm(-20,-118,-62,-112)}${arm(-62,-112,-80,-150)}${head(70,-138,22,1)}<line x1="70" y1="-115" x2="115" y2="-120" stroke="${BG}" stroke-width="12" stroke-linecap="round"/><circle cx="120" cy="-122" r="14" fill="none" stroke="${BG}" stroke-width="6"/></g>`;
+ g+=lab(px+420,py+180,'MOI',26)+lab(px+515,py+180,'JÉSUS',26);
+ for(let i=0;i<3;i++)g+=`<path transform="translate(${px+560+i*50},${py+110-i*25}) scale(.6)" d="M22 38 C-8 18 4 -6 22 8 C40 -6 52 18 22 38 Z" fill="${B}"/>`;}
+document.getElementById('s').innerHTML=g;
+const caps=['1 · MOI au volant, sûr de lui (« Ma vie »). Jésus est assis à côté.','2 · Il zigzague, dérape, renverse un plot… Jésus reste calme.','3 · La voiture cale et fume. Il pose la tête sur le volant. Jésus tend la main.','4 · Il lui laisse le volant : route droite, lumière, il se détend enfin.'];
+document.getElementById('cap').innerHTML=caps.map((c,i)=>`<div class=c style="left:${P[i][0]}px;top:${P[i][1]+530}px">${c}</div>`).join('');
+</script></body></html>
