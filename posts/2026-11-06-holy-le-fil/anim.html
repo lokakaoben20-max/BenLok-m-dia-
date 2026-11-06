@@ -1,0 +1,124 @@
+<html><head><style>body{margin:0;background:#0d1116;width:1920px;height:1080px;overflow:hidden;position:relative}
+.v{position:absolute;left:260px;width:1400px;text-align:center;color:#e9e9ea;font:300 58px/1.35 Inter}
+.v i{font-family:'DejaVu Serif';font-style:italic;color:#18cfec}
+.en{position:absolute;left:260px;width:1400px;text-align:center;color:#9aa0a6;font:300 36px/1.35 Inter;font-style:italic}
+.ref{position:absolute;left:0;width:1920px;text-align:center;color:#18cfec;font:500 28px 'JetBrains Mono';letter-spacing:6px}
+.sig{position:absolute;left:0;width:1920px;top:960px;text-align:center;color:#9aa0a6;font:400 30px 'JetBrains Mono'}
+</style></head><body><svg width=1920 height=1080 id=s style="position:absolute;left:0;top:0"></svg><div id=h></div>
+<script src="pk.js"></script><script src="lib.js"></script><script src="hl.js"></script><script>
+const SS=0.95, STONE=300, A=[STONE+342,GRD-52], DOOR=3300, LMAX=2800-A[0];
+function cl(x,a=0,b=1){return Math.max(a,Math.min(b,x));}
+function k(t,a,b){return cl((t-a)/(b-a));}
+function ez(x){return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;}
+function E(t,a,b){return ez(k(t,a,b));}
+function lerp(a,b,t){return a+(b-a)*t;}
+function lp(P,Q,t){const o={};for(const key of new Set([...Object.keys(P),...Object.keys(Q)])){o[key]=lerp(P[key]??0,Q[key]??0,t);}return o;}
+function walkP(ph,amp=1,lean=0.08){const s=Math.sin(ph),c=Math.cos(ph);
+ return {lean,head:0.02,th1:0.38*s*amp,sh1:0.38*s*amp-0.5*Math.max(0,-c)*amp,th2:-0.38*s*amp,sh2:-0.38*s*amp-0.5*Math.max(0,c)*amp,ua1:-0.32*s*amp,fa1:-0.32*s*amp+0.35,ua2:0.32*s*amp,fa2:0.32*s*amp+0.35};}
+function runP(ph){const s=Math.sin(ph),c=Math.cos(ph);return {lean:0.32,head:-0.05,th1:0.75*s+0.25,sh1:0.75*s+0.25-1.1*Math.max(0,-c),th2:-0.75*s+0.25,sh2:-0.75*s+0.25-1.1*Math.max(0,c),ua1:-0.9*s,fa1:-0.9*s+1.5,ua2:0.9*s,fa2:0.9*s+1.5};}
+const Q={stand:PZ.stand,pulled:PZ.pulled,pull:PZ.pull,sit:PZ.sit,kneel:PZ.kneel,kneelpull:PZ.kneelpull,hand:PZ.hand,joy:PZ.joy,
+ look:{lean:0.0,head:-0.25,ua1:0.1,fa1:0.25,th1:0.02,sh1:0.02,th2:-0.03,sh2:0},
+ snip:{lean:0.55,head:0.6,ua1:0.75,fa1:0.55,ua2:0.4,fa2:0.3,th1:0.35,sh1:-0.25,th2:-0.15,sh2:-0.4},
+ fall:{lean:-1.45,head:-0.1,ua1:2.6,fa1:2.8,ua2:2.2,fa2:2.4,th1:-1.3,sh1:-1.0,th2:-1.5,sh2:-1.3},
+ lookup:{lean:0.05,head:-0.45,ua1:0.25,fa1:0.15,ua2:0.15,fa2:0.05,th1:0.15,sh1:-1.5,th2:0.05,sh2:-1.55},
+ reach:{lean:0.45,head:0.45,ua1:0.35,fa1:0.15,ua2:0.15,fa2:0.05,th1:1.0,sh1:-0.45,th2:0.55,sh2:-1.2},
+ turnback:{lean:0.04,head:0.05,ua1:1.3,fa1:1.9,ua2:-0.05,fa2:0.1,th1:0.02,sh1:0.02,th2:-0.03,sh2:0},
+};
+// thread curve samples from a to b with sag, clamped above ground
+function curve(a,b,sag){const pts=[];for(let i=0;i<=40;i++){const u=i/40;const x=lerp(a[0],b[0],u),y=lerp(a[1],b[1],u)+sag*4*u*(1-u);pts.push([x,Math.min(y,GRD-4)]);}return pts;}
+function poly(pts,w=5,c='#c9ced4',op=1){return `<polyline points="${pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" opacity="${op}"/>`;}
+function yAt(pts,x){for(let i=0;i<pts.length-1;i++){const a=pts[i],b=pts[i+1];if((x-a[0])*(x-b[0])<=0){const u=(x-a[0])/((b[0]-a[0])||1);return lerp(a[1],b[1],u);}}return null;}
+function pop(t,a,b,txt,x,y,size=70,c=BL){if(t<a||t>b)return '';const q=E(t,a,a+0.2)*(1-k(t,b-0.25,b));return `<text x="${x}" y="${y}" text-anchor="middle" font-family="Inter" font-weight="900" font-size="${size*(0.6+0.4*q)}" fill="${c}" opacity="${q}">${txt}</text>`;}
+function scissors(x,y,rot,open,broken=0){let g=`<g transform="translate(${x},${y}) rotate(${rot})">`;
+ const bl=(sgn,dx=0,dy=0)=>`<g transform="translate(${dx},${dy}) rotate(${sgn*open*22})"><circle cx="-34" cy="${sgn*10}" r="13" fill="none" stroke="${FG}" stroke-width="6"/><line x1="-22" y1="${sgn*6}" x2="40" y2="${-sgn*3}" stroke="${FG}" stroke-width="7" stroke-linecap="round"/></g>`;
+ if(!broken)g+=bl(1)+bl(-1); else g+=`<g transform="translate(${-broken*60},${broken*40}) rotate(${broken*90})">${bl(1)}</g><g transform="translate(${broken*70},${broken*30}) rotate(${-broken*120})">${bl(-1)}</g>`;
+ return g+'</g>';}
+window.draw=function(t){_id=0;let g='',html='';
+ const END=49.5;
+ if(t>=END){const lt=t-END;const a=E(lt,0.2,0.9),b=E(lt,0.9,1.6),c=E(lt,1.4,1.9),fo=1-k(t,END+4.4,END+5);
+  html+=`<div style="opacity:${fo}"><div class=v style="top:${300-16*(1-a)}px;opacity:${a}">« Si donc le Fils vous affranchit, vous serez réellement <i>libres</i>. »</div>`;
+  html+=`<div class=en style="top:520px;opacity:${b}">If the Son therefore shall make you free, ye shall be free indeed.</div>`;
+  html+=`<div class=ref style="top:630px;opacity:${c}">JEAN 8:36 · JOHN 8:36</div>`;
+  html+=`<div class=sig style="opacity:${c}"><span style="display:inline-block;width:24px;height:24px;border-radius:50%;background:#18cfec;vertical-align:-3px;margin-right:14px"></span>Holyforchrist</div></div>`;
+  document.getElementById('s').innerHTML='';document.getElementById('h').innerHTML=html;return;}
+ document.getElementById('h').innerHTML='';
+ // ---------- MOI state
+ let mx=2500,f=1,po=Q.stand,yoff=0,ankleIdx=2;
+ if(t<4){po=lp(Q.stand,Q.look,E(t,2.5,3.5));}
+ else if(t<9){const q=k(t,4,8.6);mx=lerp(2500,2800,q);po=walkP((t-4)*6.2,0.9);if(t>8.6){mx=2800-E(t,8.6,9)*50;po=lp(walkP(8.6*6.2-4*6.2,0.9),Q.pulled,E(t,8.6,8.9));}}
+ else if(t<12){mx=2750;f=-1;po=lp(Q.pulled,Q.pull,E(t,9.1,9.6));if(t>9.6){const sh=Math.sin(t*28)*0.03;po={...Q.pull,lean:Q.pull.lean+sh};mx=2750+Math.sin(t*28)*3;}}
+ else if(t<15){mx=2750;f=-1;po=lp(Q.pull,Q.snip,E(t,12,12.5));if(t>14.2)po=lp(Q.snip,Q.look,E(t,14.2,14.7));}
+ else if(t<20){if(t<17){mx=lerp(2750,2800,E(t,15.2,15.6));f=1;po=t<15.4?lp(Q.look,runP(0),E(t,15,15.4)):runP((t-15.4)*11);if(t>15.6)mx=lerp(2800,3010,k(t,15.6,17));}
+   else{const q=E(t,17,17.9);mx=lerp(3010,2450,q);f=1;po=lp(Q.pulled,Q.fall,E(t,17,17.5));yoff=-Math.sin(k(t,17,17.9)*Math.PI)*160;if(t>17.9){mx=2450;po=Q.fall;yoff=0;}}}
+ else if(t<25){mx=2450;f=1;po=lp(Q.fall,Q.sit,E(t,20,21));}
+ else if(t<32){if(t<27){mx=2450;f=-1;po=lp(Q.sit,Q.stand,E(t,25.5,26.6));}else{const q=k(t,27,31.6);mx=lerp(2450,1200,q);f=-1;po=walkP((t-27)*6.2,0.9);if(t>31.6){mx=1200;po=lp(walkP(4.6*6.2,0.9),Q.stand,E(t,31.6,32));}}}
+ else if(t<36){mx=1200;f=-1;if(t<34.6){po=lp(Q.stand,Q.kneelpull,E(t,32,32.6));if(t>32.6){po={...Q.kneelpull,lean:Q.kneelpull.lean+Math.sin(t*26)*0.03};}}else po=lp(Q.kneelpull,Q.kneel,E(t,34.6,35.3));}
+ else if(t<41.5){mx=1200;f=-1;po=Q.kneel;if(t>38.7)po=lp(Q.kneel,Q.lookup,E(t,38.7,39.3));}
+ else if(t<43.5){mx=1200;f=1;po=lp(Q.lookup,Q.stand,E(t,41.5,42.2));if(t>42.4)po=lp(Q.stand,Q.joy,Math.sin(k(t,42.4,43.4)*Math.PI));yoff=t>42.4?-Math.sin(k(t,42.4,43.4)*Math.PI)*70:0;}
+ else {const q=k(t,43.9,48.0);mx=lerp(1200,DOOR-330,ez(q));f=1;po=walkP((t-43.9)*7.0,1.0,0.1);if(t<43.9)po=Q.stand;if(t>48.0){mx=lerp(DOOR-330,DOOR+20,k(t,48,49.3));po=walkP((t-43.9)*7.0,1.0,0.1);}}
+ // ---------- camera
+ const camKeys=[[0,2180],[0.5,2180],[4.2,2600],[15,2600],[16.4,2680],[17.6,2600],[27,2600],[31.8,1180],[36,1180],[38,1260],[43.5,1260],[47.5,2850],[50,2850]];
+ let cx=camKeys[0][1];for(let i=0;i<camKeys.length-1;i++){const [ta,xa]=camKeys[i],[tb,xb]=camKeys[i+1];if(t>=ta&&t<=tb){cx=lerp(xa,xb,ez((t-ta)/(tb-ta)));break;}if(t>tb)cx=xb;}
+ let w='';
+ // background world
+ w+=doorH(DOOR,1+(t>45?0.25*E(t,45,48):0));
+ w+=knotH(STONE);
+ // others walking past (20-25)
+ if(t>19.5&&t<26.5){for(let i=0;i<2;i++){const q=k(t,19.5+i*0.9,25.5+i*0.9);const ox=lerp(1950,DOOR,q);const op=1-k(ox,DOOR-160,DOOR);if(q>0&&q<1){const o=man(ox,GRD,walkP((t-19.5)*6.2+i,0.9),{s:SS*0.8});w+=`<g opacity="${0.45*op}">${o.svg}</g>`+shadow(ox,110);}}}
+ // MOI
+ const M=man(mx,GRD+yoff,po,{s:SS,f});
+ const ank=M.ank2;
+ // thread state
+ const snapT=40.3;
+ let thr='';
+ const dist=Math.hypot(ank[0]-A[0],ank[1]-A[1]);
+ let sag=Math.max(0,LMAX-dist)*0.08; if(t>9&&t<12)sag=0; if(t>32.6&&t<34.6)sag=0;
+ if(t<snapT){const B=(t>32.6&&t<34.6)?M.hand1:ank;let pts=curve(A,B,sag);
+   if(t>32.6&&t<34.6)thr+=poly(curve(M.hand1,ank,10));
+   if(t>9.6&&t<12){pts=curve(A,M.hand2,0);thr+=poly(curve(M.hand2,ank,8));}
+   thr+=poly(pts);
+   [['MENSONGE',820],['COLÈRE',980],['HONTE',1120]].forEach(([wd,x])=>{const y=yAt(pts,x);if(y!=null)thr+=tagH(x,y,wd);});
+   thr+=ringH(ank);}
+ else {const dropq=E(t,snapT,snapT+0.8);let pts=curve(A,[lerp(ank[0]+40,ank[0]+60,dropq),lerp(ank[1]-10,GRD-4,dropq)],0);thr+=poly(pts,5,'#c9ced4',1-0.5*k(t,snapT,snapT+3));
+   [['MENSONGE',820],['COLÈRE',980],['HONTE',1120]].forEach(([wd,x])=>{const y=yAt(pts,x);if(y!=null)thr+=`<g opacity="${1-0.6*k(t,snapT,snapT+3)}">${tagH(x,y,wd)}</g>`;});
+   if(t<snapT+0.6)thr+=`<g opacity="${1-k(t,snapT,snapT+0.6)}">${ringH(ank)}</g>`;}
+ // JESUS
+ let J=null;
+ if(t>36){let jx=lerp(2000,1440,E(t,36,38.2))+E(t,39.2,39.6)*60+E(t,40.7,41.4)*30,jp=walkP((t-36)*6.2,0.9);let jf=-1;
+   if(t>38.2)jp=lp(walkP(2.2*6.2,0.9),Q.hand,E(t,38.2,38.7));
+   if(t>39.3)jp=lp(Q.hand,Q.reach,E(t,39.3,40.0));
+   if(t>40.6)jp=lp(Q.reach,Q.stand,E(t,40.6,41.2));
+   if(t>41.2&&t<43.5)jp=lp(Q.stand,Q.hand,E(t,42.2,42.6)*(1-E(t,43,43.4)));
+   if(t>43.5){jf=1;jx=lerp(1520,DOOR-260,ez(k(t,43.6,47.2)));jp=walkP((t-43.6)*6.8,0.9);if(t<43.6)jp=Q.stand;if(t>47.2){jf=-1;jp=lp(Q.stand,Q.turnback,E(t,47.2,47.7));}}
+   J=man(jx,GRD,jp,{s:SS,f:jf});
+   w+=halo(J.head,360,0.9)+shadow(jx);}
+ w+=thr;
+ w+=shadow(mx,yoff<-40?90:150);
+ if(J)w+=J.svg;
+ w+=`<g opacity="${1-k(mx,DOOR-110,DOOR)}">${M.svg}</g>`;
+ // scissors 12-15
+ if(t>12.3&&t<15.2){const op=E(t,12.3,12.6);const open=t<13.8?Math.abs(Math.sin((t-12.6)*7)):0;const br=t>13.8?E(t,13.8,14.4):0;
+   const sx=t<13.8?M.hand1[0]:lerp(M.hand1[0],M.hand1[0],1),sy=t<13.8?M.hand1[1]:lerp(M.hand1[1],GRD-14,br);
+   w+=`<g opacity="${op*(1-k(t,14.8,15.2))}">${scissors(sx,sy,f<0?160:20,open,br)}</g>`;}
+ // labels
+ const lo=E(t,3.2,4.0)*(1-k(t,47,47.6));
+ w+=`<g opacity="${lo}">`+labH(M.head,'MOI',FG,po===Q.fall||t>17.9&&t<20?110:140)+`</g>`;
+ if(J)w+=`<g opacity="${E(t,36.4,37.2)*(1-k(t,47,47.6))}">`+labH(J.head,'JÉSUS',BL)+`</g>`;
+ // effects
+ w+=pop(t,9.0,10.2,'!',M.head[0]+60*f,M.head[1]-60,90,BL);
+ w+=pop(t,14.4,15.2,'?',M.head[0],M.head[1]-70,80,BL);
+ w+=pop(t,17.15,18.6,'BOING !',2650,GRD-560,100,FG);
+ if(t>9.6&&t<12)for(let i=0;i<2;i++){const q=((t*1.6+i*0.5)%1);w+=`<path transform="translate(${M.head[0]+50*f+i*14},${M.head[1]-20+q*50})" d="M0 -14 Q10 0 0 8 Q-10 0 0 -14 Z" fill="${BL}" opacity="${1-q}"/>`;}
+ if(t>17.8&&t<19){const q=k(t,17.8,19);for(let i=0;i<6;i++){const a=Math.PI+i*0.6;w+=`<circle cx="${2450+Math.cos(a)*q*140}" cy="${GRD-10+Math.sin(a)*q*40}" r="${(1-q)*14+2}" fill="#7d8792" opacity="${(1-q)*0.7}"/>`;}}
+ if(t>33&&t<34.6)w+=`<path d="M${M.head[0]-60} ${M.head[1]-40} l-18 -18 M${M.head[0]-40} ${M.head[1]-60} l-8 -24" stroke="${FG}" stroke-width="5" stroke-linecap="round" opacity="${Math.abs(Math.sin(t*10))}"/>`;
+ if(t>snapT-0.15&&t<snapT+1.2){const q=k(t,snapT-0.15,snapT+1.2);const p=[ank[0]+40,ank[1]-14];w+=`<circle cx="${p[0]}" cy="${p[1]}" r="${60+q*140}" fill="url(#glowW)" opacity="${1-q}"/>`;for(let i=0;i<12;i++){const a=i*0.5236;w+=`<line x1="${p[0]+Math.cos(a)*(20+q*80)}" y1="${p[1]+Math.sin(a)*(20+q*80)}" x2="${p[0]+Math.cos(a)*(50+q*140)}" y2="${p[1]+Math.sin(a)*(50+q*140)}" stroke="${BL}" stroke-width="6" stroke-linecap="round" opacity="${1-q}"/>`;}}
+ if(t>42.4&&t<44.5){for(let i=0;i<5;i++){const q=((t-42.4)*0.8+i/5)%1;w+=`<path transform="translate(${M.head[0]-80+i*40},${M.head[1]-120-q*140}) scale(.7)" d="M22 38 C-8 18 4 -6 22 8 C40 -6 52 18 22 38 Z" fill="${BL}" opacity="${(1-q)*(1-k(t,44,44.5))}"/>`;}}
+ // final light flash
+ const flash=E(t,48.4,49.3)*(1-0);
+ g=scene()+`<g transform="translate(${960-cx},0)">${w}</g>`+vignette()+sig();
+ g+=`<rect width="1920" height="1080" fill="#e9fbff" opacity="${flash*0.95}"/>`;
+ g+=`<rect width="1920" height="1080" fill="#0d1116" opacity="${k(t,49.3,49.5)}"/>`;
+ const fin=1-k(t,0,0.6);g+=`<rect width="1920" height="1080" fill="#000" opacity="${fin}"/>`;
+ document.getElementById('s').innerHTML=g;};
+draw(+(location.hash.slice(1)||0));
+</script></body></html>
