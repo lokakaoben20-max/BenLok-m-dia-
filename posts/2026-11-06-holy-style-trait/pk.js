@@ -31,7 +31,13 @@ function man(x,y,po,o={}){const s=o.s||1,f=o.f||1;
  g+=limb(l1,WL,0);
  g+=`<path d="${path}" fill="${INK}" stroke="${INK}" stroke-width="14" stroke-linejoin="round"/>`;
  g+=L([0,-6],rot([0,-30]),WL*1.6,INK); // hip mass joining legs
+ if(o.beard){const [bx,by]=hpos2;const a=lean+(po.head||0);const rp=p=>{const q=R(p,a);return [bx+q[0],by+q[1]];};
+   const B=[[-6,46],[22,44],[44,30],[54,18],[60,44],[54,70],[44,98],[30,80],[10,62]].map(rp);
+   const d=smooth(B);
+   g+=`<path d="${d}" fill="${INK}" stroke="${PAPER}" stroke-width="8" stroke-linejoin="round"/>`;}
  g+=`<circle cx="${hpos2[0]}" cy="${hpos2[1]}" r="${HR}" fill="${INK}"/>`;
+ if(o.beard){const [bx,by]=hpos2;const a=lean+(po.head||0);const rp=p=>{const q=R(p,a);return [bx+q[0],by+q[1]];};
+   const B=[[-6,46],[22,44],[44,30],[54,18],[60,44],[54,70],[44,98],[30,80],[10,62]].map(rp);g+=`<path d="${smooth(B)}" fill="${INK}"/>`;}
  g+=limb(a1,WA,1);
  const ty=y-low*s;
  return {svg:`<g transform="translate(${x},${ty}) scale(${f*s},${s})">${g}</g>`};

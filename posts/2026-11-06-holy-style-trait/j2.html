@@ -1,0 +1,8 @@
+<html><body style="margin:0;background:#fff"><svg width=1400 height=700 id=s></svg><script src="pk.js"></script><script>
+const T=(x,y,t)=>`<text x="${x}" y="${y}" text-anchor="middle" font-family="Inter" font-weight="800" font-size="34" fill="#000">${t}</text>`;
+let g='';
+g+=man(260,590,{lean:0.08,ua1:0.05,fa1:0.3,th1:0.02,sh1:0.02,th2:-0.03,sh2:0},{s:0.9}).svg+T(260,680,'MOI');
+g+=man(560,590,{lean:0.04,ua1:0.05,fa1:0.3,th1:0.02,sh1:0.02,th2:-0.03,sh2:0},{s:0.9,beard:1,f:-1}).svg+T(560,680,'JÉSUS');
+g+=man(900,590,{lean:0.08,ua1:-0.1,fa1:0.6,ua2:0.3,fa2:0.5,th1:0.4,sh1:0.1,th2:-0.35,sh2:-0.5},{s:0.9,beard:1}).svg+T(900,680,'JÉSUS');
+g+=man(1200,590,{lean:0.0,ua1:1.2,fa1:1.5,ua2:-0.05,fa2:0.1,th1:0.02,sh1:0.02,th2:-0.03,sh2:0},{s:0.9,beard:1,f:-1}).svg+T(1200,680,'JÉSUS');
+document.getElementById('s').innerHTML=g;</script></body></html>
