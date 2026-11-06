@@ -1,0 +1,36 @@
+<html><body style="margin:0;background:#fff;font-family:Inter"><svg width=1920 height=1900 id=s></svg><div id=c></div><script src="pk.js"></script><script src="lib.js"></script><script>
+const panels=[];
+// 1 close up: thread to ankle
+panels.push(()=>{let g='';const m=man(600,GR,PZ.walk,{s:1.7});g+=ground()+m.svg;g+=thread([-20,GR-10],m.ank2,0,7)+ring(m.ank2);return g;});
+// 2 walking to door, thread taut
+panels.push(()=>{let g=ground()+door(800);const m=man(420,GR,PZ.pulled,{s:S});g+=m.svg+thread([0,GR-6],m.ank2,0)+ring(m.ank2)+lab(m.head,'MOI');
+ g+=`<path d="M${m.ank2[0]-60} ${m.ank2[1]-30} l-20 -10 M${m.ank2[0]-60} ${m.ank2[1]-14} l-24 0" stroke="#000" stroke-width="4" stroke-linecap="round"/>`;return g;});
+// 3 scissors break / snapped back, fall
+panels.push(()=>{let g=ground()+door(820);const m=man(300,GR,{lean:-1.45,head:-0.1,ua1:2.6,fa1:2.8,ua2:2.2,fa2:2.4,th1:-1.3,sh1:-1.0,th2:-1.5,sh2:-1.3},{s:S});
+ g+=m.svg+thread([0,GR-6],m.ank1,0)+ring(m.ank1);
+ // broken scissors
+ g+=`<g transform="translate(520,${GR-20}) rotate(25)"><circle cx="0" cy="0" r="12" fill="none" stroke="#000" stroke-width="5"/><circle cx="0" cy="30" r="12" fill="none" stroke="#000" stroke-width="5"/><line x1="10" y1="8" x2="50" y2="0" stroke="#000" stroke-width="6"/></g><line x1="600" y1="${GR-10}" x2="630" y2="${GR-4}" stroke="#000" stroke-width="6"/>`;
+ for(let i=0;i<3;i++)g+=`<line x1="${170-i*8}" y1="${GR-80-i*30}" x2="${130-i*10}" y2="${GR-100-i*32}" stroke="#000" stroke-width="5" stroke-linecap="round"/>`;
+ g+=`<text x="380" y="${GR-160}" font-family="Inter" font-weight="900" font-size="46">BOING !</text>`;return g;});
+// 4 sitting while others pass
+panels.push(()=>{let g=ground()+door(820);const m=man(260,GR,PZ.sit,{s:S});g+=m.svg+thread([0,GR-6],m.ank1,0)+ring(m.ank1)+lab(m.head,'MOI',60);
+ g+=man(560,GR,PZ.walk,{s:S*0.9}).svg+man(680,GR,PZ.walk,{s:S*0.9}).svg;return g;});
+// 5 follow thread: tags + knot + kneel
+panels.push(()=>{let g=ground();const m=man(760,GR,PZ.kneelpull,{s:S,f:-1});
+ g+=knot(200);const A=[250,GR-50],H=m.hand1;g+=thread(A,H,0)+thread(H,m.ank1,20);
+ const at=(t)=>[A[0]+(H[0]-A[0])*t,A[1]+(H[1]-A[1])*t];[['MENSONGE',0.2],['COLÈRE',0.5],['HONTE',0.8]].forEach(([w,t])=>{const p=at(t);g+=tag(p[0],p[1],w);});g+=m.svg+lab(m.head,'MOI');return g;});
+// 6 Jesus breaks thread / free
+panels.push(()=>{let g=ground()+knot(150);const m=man(470,GR,PZ.kneel,{s:S,f:-1});const j=man(600,GR,PZ.hand,{s:S,f:-1});
+ g+=m.svg+j.svg+lab(m.head,'MOI',70)+lab(j.head,'JÉSUS');
+ g+=thread([200,GR-40],[330,GR-120],10)+thread([360,GR-120],[m.ank1[0],m.ank1[1]],10);
+ for(let i=0;i<8;i++){const a=i*0.785;g+=`<line x1="${345+Math.cos(a)*18}" y1="${GR-120+Math.sin(a)*18}" x2="${345+Math.cos(a)*36}" y2="${GR-120+Math.sin(a)*36}" stroke="#000" stroke-width="4" stroke-linecap="round"/>`;}
+ return g;});
+// 7 end: free with Jesus to door
+panels.push(()=>{let g=ground()+door(820);const m=man(460,GR,PZ.joy,{s:S});const j=man(300,GR,PZ.walk,{s:S});g+=m.svg+j.svg+lab(m.head,'MOI',70)+lab(j.head,'JÉSUS');
+ g+=thread([60,GR-4],[180,GR-4],0)+`<circle cx="190" cy="${GR-4}" r="0"/>`;return g;});
+const caps=['1 · Gros plan : un fil tendu mène à sa cheville','2 · Il veut aller vers « AVENIR », le fil le retient','3 · Ciseaux cassés, il court… et le fil le ramène : BOING !','4 · Les autres passent, lui s’assoit','5 · Il remonte le fil : HONTE, COLÈRE, MENSONGE… jusqu’au nœud PÉCHÉ','6 · JÉSUS arrive près de lui et casse le fil','7 · Libre ! Il saute de joie et va vers l’avenir avec Jésus'];
+let svg='';const pos=[];
+panels.forEach((f,i)=>{const col=i%2,row=Math.floor(i/2);const x=40+col*940,y=30+row*470;pos.push([x,y]);
+ svg+=`<g transform="translate(${x},${y}) scale(0.9)"><clipPath id="cp${i}"><rect x="0" y="0" width="920" height="460" rx="16"/></clipPath><g clip-path="url(#cp${i})"><rect x="0" y="0" width="920" height="460" fill="#fff"/>${f()}</g><rect x="0" y="0" width="920" height="460" rx="16" fill="none" stroke="#ddd" stroke-width="4"/></g>`;
+ svg+=`<text x="${x+414}" y="${y+446}" text-anchor="middle" font-family="Inter" font-size="24" fill="#555">${caps[i]}</text>`;});
+document.getElementById('s').innerHTML=svg;</script></body></html>
