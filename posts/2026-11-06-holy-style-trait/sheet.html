@@ -1,0 +1,13 @@
+<html><body style="margin:0;background:#fff;font-family:Inter"><svg width=1920 height=1180 id=s></svg><script src="pk.js"></script><script>
+const T=(x,y,t)=>`<text x="${x}" y="${y}" font-family="Inter" font-weight="800" font-size="34" fill="#888">${t}</text>`;
+let g=T(40,50,'TON MODÈLE')+T(760,50,'MON DESSIN')+T(1380,50,'ENSEMBLE');
+g+=`<image href="ref1.png" x="20" y="70" width="520" height="520"/>`;
+g+=man(860,580,{lean:0.08,ua1:0.05,fa1:0.3,th1:0.02,sh1:0.02,th2:-0.03,sh2:0},{s:0.86}).svg;
+g+=man(1110,580,{lean:0.1,ua1:-0.1,fa1:0.6,ua2:0.3,fa2:0.5,th1:0.4,sh1:0.1,th2:-0.35,sh2:-0.5},{s:0.86}).svg;
+g+=`<image href="jref.png" x="140" y="640" width="370" height="500"/>`;
+g+=jesus(960,1140,{ua1:0.35,fa1:1.1,ua2:0.35,fa2:1.1},{s:1.1}).svg;
+g+=`<line x1="1300" y1="1142" x2="1900" y2="1142" stroke="#ddd" stroke-width="4"/>`;
+g+=man(1420,1140,{lean:0.12,ua1:0.9,fa1:1.3,ua2:-0.1,fa2:0.2,th1:0.3,sh1:0.05,th2:-0.3,sh2:-0.4},{s:0.8}).svg;
+g+=jesus(1690,1140,{ua1:1.0,fa1:1.35,ua2:0.35,fa2:1.1},{s:1.05}).svg;
+g+=`<line x1="1340" y1="70" x2="1340" y2="1160" stroke="#eee" stroke-width="3"/><line x1="720" y1="70" x2="720" y2="1160" stroke="#eee" stroke-width="3"/>`;
+document.getElementById('s').innerHTML=g;</script></body></html>
