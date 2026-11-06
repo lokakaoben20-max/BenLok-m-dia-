@@ -1,0 +1,18 @@
+<html><body style="margin:0;background:#0d1116"><svg width=1920 height=1080 id=s></svg><script src="pk.js"></script><script src="lib.js"></script><script src="hl.js"></script><script>
+const SS=0.95;
+const F={
+a:()=>{let g=scene()+doorH(1560);const m=man(780,GRD,PZ.pulled,{s:SS});g+=shadow(780)+threadH([-20,GRD-8],m.ank2,0)+m.svg+ringH(m.ank2)+labH(m.head,'MOI');
+ g+=`<path d="M${m.ank2[0]-90} ${m.ank2[1]-50} l-34 -16 M${m.ank2[0]-96} ${m.ank2[1]-22} l-40 0" stroke="#c9ced4" stroke-width="6" stroke-linecap="round"/>`;return g+vignette()+sig();},
+b:()=>{let g=scene()+knotH(330);const m=man(1440,GRD,PZ.kneelpull,{s:SS,f:-1});const A=[420,GRD-90],H=m.hand1;g+=shadow(1440)+threadH(A,H,0)+threadH(H,m.ank1,30);
+ const at=t=>[A[0]+(H[0]-A[0])*t,A[1]+(H[1]-A[1])*t];[['MENSONGE',0.25],['COLÈRE',0.52],['HONTE',0.78]].forEach(([w,t])=>{const p=at(t);g+=tagH(p[0],p[1],w);});
+ g+=m.svg+labH(m.head,'MOI');return g+vignette()+sig();},
+c:()=>{let g=scene()+knotH(300);const m=man(1000,GRD,PZ.kneel,{s:SS,f:-1});const j=man(1260,GRD,PZ.hand,{s:SS,f:-1});
+ g+=halo(j.head,380)+shadow(1000)+shadow(1260);
+ g+=threadH([390,GRD-90],[700,GRD-250],10)+threadH([740,GRD-250],m.ank1,20);
+ g+=`<circle cx="720" cy="${GRD-250}" r="70" fill="url(#glowW)"/>`;
+ for(let i=0;i<10;i++){const a=i*0.628;g+=`<line x1="${720+Math.cos(a)*30}" y1="${GRD-250+Math.sin(a)*30}" x2="${720+Math.cos(a)*64}" y2="${GRD-250+Math.sin(a)*64}" stroke="${BL}" stroke-width="5" stroke-linecap="round"/>`;}
+ g+=m.svg+j.svg+labH(m.head,'MOI',FG,140)+labH(j.head,'JÉSUS',BL);return g+vignette()+sig();},
+d:()=>{let g=scene()+doorH(1600,1.25);const j=man(1060,GRD,PZ.walk,{s:SS});const m=man(1300,GRD,PZ.joy,{s:SS});
+ g+=halo(j.head,300,0.7)+shadow(1060)+shadow(1300)+threadH([200,GRD-6],[420,GRD-6],0)+j.svg+m.svg+labH(j.head,'JÉSUS',BL)+labH(m.head,'MOI',FG,140);return g+vignette()+sig();},
+};
+window.show=k=>{document.getElementById('s').innerHTML=F[k]();};show(location.hash.slice(1)||'a');</script></body></html>
