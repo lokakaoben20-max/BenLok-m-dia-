@@ -68,6 +68,18 @@ jeu19: () => page(`${murBg(1080,1350,1919)}
 <div style="position:absolute;top:1020px;left:50%;transform:translateX(-50%);background:#18cfec;border-radius:60px;padding:16px 46px;font-weight:700;font-size:46px;color:#121212;white-space:nowrap">#maprierechallenge</div>
 <div style="position:absolute;top:1132px;left:0;right:0;text-align:center;font-weight:300;font-size:30px;color:#a8a5a0">et toute la page priera avec toi</div>`),
 
+
+// DIM 20h — Challenge « un seul mot »
+mot15: () => page(`${murBg(1080,1350,2715)}<div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 55% at 50% 50%,#141414f2 0,#141414cc 60%,#14141466 100%)"></div>
+<div style="position:absolute;top:150px;left:0;right:0;text-align:center;font-family:'JetBrains Mono';font-size:30px;letter-spacing:12px;color:#18cfec">LE MUR DES PRIÈRES</div>
+<div style="position:absolute;top:250px;left:0;right:0;text-align:center;font-weight:200;font-size:96px;line-height:1.05;color:#e6e3de">Ta prière en<br><em style="font-size:150px;color:#18cfec">un seul mot</em>.</div>
+<div style="position:absolute;top:610px;left:120px;right:120px;display:flex;flex-wrap:wrap;justify-content:center;gap:18px">
+${['Santé','Travail','Famille','Paix','Examens','Pardon','Mariage','Force'].map(w=>`<div style="background:#ebe7df;border-radius:6px;padding:14px 30px;font-family:'Instrument Serif';font-style:italic;font-size:44px;color:#1a1a1a;transform:rotate(${(w.length%3-1)*1.5}deg)">${w}</div>`).join('')}
+</div>
+<div style="position:absolute;top:900px;left:0;right:0;text-align:center;font-weight:300;font-size:36px;color:#cfccc7">Écris ton mot en commentaire avec</div>
+<div style="position:absolute;top:964px;left:50%;transform:translateX(-50%);background:#18cfec;border-radius:60px;padding:16px 46px;font-weight:700;font-size:46px;color:#121212;white-space:nowrap">#maprierechallenge</div>
+<div style="position:absolute;top:1080px;left:0;right:0;text-align:center;font-weight:300;font-size:32px;color:#a8a5a0">Pas besoin de longues phrases. Dieu comprend.</div>`),
+
 // VEN — Conversation avec Dieu (style jeu12)
 ven20: () => { const me=t=>`<div style="align-self:flex-end;width:704px;background:#2c2c30;border-radius:28px 28px 8px 28px;padding:26px 32px;font-size:35px;line-height:1.3;color:#e2dfda">${t}</div>`;
  const god=t=>`<div style="align-self:flex-start;max-width:704px;background:#0ea5d9;border-radius:28px 28px 28px 8px;padding:26px 32px;font-size:35px;line-height:1.3;color:#fff">${t}</div>`;
