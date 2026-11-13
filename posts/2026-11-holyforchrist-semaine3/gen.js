@@ -83,7 +83,7 @@ ${god('Jamais. Lève-toi, on recommence ensemble. 🤍')}
 sam21: () => page(`<div style="position:absolute;left:120px;right:80px;top:362px">
 <div class="lab">Phrases que Jésus n'a jamais dites</div>
 <div style="margin-top:84px;display:flex;flex-direction:column;gap:30px">
-${['« Débrouille-toi seul. »','« Cache tes larmes. »','« Tu es allé trop loin. »','« Je t\'aimerai si… »','« Pas maintenant. »'].map(t=>`<div style="font-weight:700;font-size:46px;letter-spacing:-1px;color:#7f7c77;line-height:1.05"><span style="background:linear-gradient(#0ea5d9,#0ea5d9) 0 55%/100% 3px no-repeat">${t}</span></div>`).join('')}
+${['« Débrouille-toi seul. »','« Cache tes larmes. »','« Tu es allé trop loin. »','« Je t\'aimerai si… »','« Tu n\'en vaux pas la peine. »'].map(t=>`<div style="font-weight:700;font-size:46px;letter-spacing:-1px;color:#7f7c77;line-height:1.05"><span style="background:linear-gradient(#0ea5d9,#0ea5d9) 0 55%/100% 3px no-repeat">${t}</span></div>`).join('')}
 </div>
 <div style="margin-top:84px;font-weight:800;font-size:58px;letter-spacing:-2px;line-height:1.12;color:#e4e1dc">Il a dit : « Je suis avec<br>vous <em style="font-size:72px">tous les jours</em>. »</div>
 <div class="ref" style="margin-top:30px;font-size:24px">MATTHIEU 28 : 20</div></div>`),
