@@ -26,7 +26,7 @@ dim15: () => page(`<div class="mid" style="font-family:'Grandstander';font-weigh
 <div>Cette semaine, je ne vais pas tout comprendre. Il y aura des réponses qui tardent et des portes qui restent fermées.</div>
 <div>Apprends-moi à Te faire confiance même quand je ne vois rien. À me reposer sur Toi, pas sur mes plans.</div>
 <div>Et quand je m'inquiète pour demain, rappelle-moi que Tu y es déjà.</div>
-<div style="color:#e3a51c">Amen. 🙏🏾</div></div>`),
+<div><span style="color:#e3a51c">Amen</span>. 🙏🏾</div></div>`),
 
 // LUN — Phrase (style lun09)
 lun16: () => page(`<div class="mid" style="font-weight:800;font-size:104px;line-height:1.0;letter-spacing:-5px;color:#d6d3ce;gap:0">
